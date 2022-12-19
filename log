@@ -1,0 +1,27 @@
+@Test
+public void listAdmin(){
+
+  //        从 XML 中构建 SqlSessionFactory
+  String resources = "mybatis-config.xml";
+  InputStream resourceAsStream = null;
+  try {
+    resourceAsStream = Resources.getResourceAsStream(resources);
+  } catch (IOException e) {
+    e.printStackTrace();
+  }
+
+  SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+
+  //        从 SqlSessionFactory 中获取 SqlSession
+  SqlSession sqlSession = sqlSessionFactory.openSession(true);
+
+  //        执行已映射的 SQL 语句
+  AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+  List<Admin> adminList = mapper.listAdmin();
+  for (Admin admin : adminList) {
+    System.out.println(admin);
+  }
+
+  //        关闭SqlSession连接
+  sqlSession.close();
+}
